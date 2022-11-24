@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { parse } from "date-fns";
 
 const POSTS_PATH = path.join(process.cwd(), "posts");
 
@@ -14,7 +15,12 @@ export const getSinglePostData = async (slug: string) => {
     slug.endsWith(".mdx") ? slug : `${slug}.mdx`
   );
   const source = await fs.promises.readFile(postFilePath);
-  return matter(source);
+  const result = matter(source);
+  const { data } = result;
+  // 19 Nov 2022 13:00PM
+  data.timestamp = parse(data.date, "d MMM yyyy h:mma", new Date()).getTime();
+  data.slug = slug.replace(".mdx", "");
+  return result;
 };
 
 export const getAllPostData = async () => {
@@ -22,5 +28,6 @@ export const getAllPostData = async () => {
   const allPostData = await Promise.all(
     postList.map((slug) => getSinglePostData(slug))
   );
+  allPostData.sort((a, b) => b.data.timestamp - a.data.timestamp);
   return allPostData;
 };

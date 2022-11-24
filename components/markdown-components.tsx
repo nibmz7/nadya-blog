@@ -1,16 +1,13 @@
 import Head from "next/head";
 
 const markdownComponents = {
-  wrapper: (props) => {
-    return (
-      <div className="p-4">
-        <Head>
-          <title>Nur Ilyas Blog</title>
-        </Head>
-        <div className="shadow rounded-md bg-white p-4">{props.children}</div>
-      </div>
-    );
-  },
+  // wrapper: (props) => {
+  //   return (
+  //     <Head>
+  //       <title>Nur Ilyas Blog</title>
+  //     </Head>
+  //   );
+  // },
   h1: (props) => {
     return (
       <h1 className="mt-6 first:mt-0 mb-2 text-2xl font-bold">
